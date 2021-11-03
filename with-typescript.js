@@ -3,5 +3,5 @@ exports.__esModule = true;
 function add(a, b) {
     return a + b;
 }
-var result = add(5, 150);
+var result = add(17, 150);
 console.log(result);
