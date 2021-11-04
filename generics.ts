@@ -203,3 +203,31 @@ const last = (arr: Array<any>) => {
 }
 
 const l = last([1, 2, 3]) // any
+
+// here we will have generic function to get the last element of an array with proper type
+
+const lastGenerics = <T>(arr: Array<T>) => {
+  return arr[arr.length - 1]
+}
+
+const lGen = lastGenerics(["a", "b", "c"]) // string, here TS infers the type from the argument, however, we can explicitly say what type we want as below
+const lGen2 = lastGenerics<string>(["e", "f", "g"])
+
+const object = lastGenerics([
+  { name: "Pavel", age: 34 },
+  { name: "Jura", age: 26, level: 3 },
+])
+
+log(object.level) // TS inferred the type from argument, level was suggested
+
+const mixed = lastGenerics([7, 8]) // number
+
+// ------ tuple --------------
+
+const makeTuple = <X, Y>(x: X, y: Y): [X, Y] => {
+  return [x, y]
+}
+
+const tupleOne = makeTuple(18, "Olga")
+
+// --------------------------

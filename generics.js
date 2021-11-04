@@ -128,5 +128,24 @@ simpleTwo.toString(); // no intelliSense suggestions after "."
 function simpleStuffGenerics(arg) {
     return arg;
 }
-var simpleThree = simpleStuffGenerics("Palko");
-exports.log(typeof simpleThree);
+var simpleThree = simpleStuffGenerics("Palko").slice(0, 2); // suggestion support - all methods callable on string
+exports.log(typeof simpleThree); // string
+// -------------------- next example from Ben Awad ------------------ //
+// aim is to write a function that will return last element of given arr, also it needs to return the value with certain type (not "any")
+// we can have any kinds of array but we lose the type which here is "any"
+var last = function (arr) {
+    return arr[arr.length - 1];
+};
+var l = last([1, 2, 3]); // any
+// here we will have generic function to get the last element of an array with proper type
+var lastGenerics = function (arr) {
+    return arr[arr.length - 1];
+};
+var lGen = lastGenerics(["a", "b", "c"]); // string, here TS infers the type from the argument, however, we can explicitly say what type we want as below
+var lGen2 = lastGenerics(["e", "f", "g"]);
+var object = lastGenerics([
+    { name: "Pavel", age: 34 },
+    { name: "Jura", age: 26, level: 3 },
+]);
+exports.log(object.level);
+var mixed = lastGenerics([7, 8]); // number
