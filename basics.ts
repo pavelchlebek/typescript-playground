@@ -82,3 +82,105 @@ function printOutput(value: any) {
 // }
 
 // printValue(15)
+
+class Color {
+  name: string
+  constructor(name: string) {
+    this.name = name
+  }
+}
+
+const color = new Color("lightblue")
+
+// functions annotations
+
+// ------ nasty -----
+const logNumber: (i: number) => void = (i) => {
+  console.log(i)
+}
+
+logNumber(28)
+
+//-----------
+
+type logNumber = (i: number) => void
+
+const logNumber2: logNumber = (i) => {
+  console.log(i)
+}
+
+const logDoubleNumber: logNumber = (i) => {
+  console.log(i * 2)
+}
+
+logNumber2(88)
+logDoubleNumber(55)
+
+// --------better---------------
+
+const logString = (i: string): void => {
+  console.log(i)
+}
+
+logString("Palko je borec!!!")
+
+// ----------best --------
+
+const logObject = (obj: {}) => {
+  console.log(obj)
+}
+
+logObject({ name: "Pavel", age: 34 })
+
+// ------------------ never -----------------
+
+const throwError = (message: string): never => {
+  // here "never" means that we will never reach the end of the function
+  throw new Error(message)
+}
+
+// throwError("Error occurred")
+
+// -------------- function annotation with argument destructuring
+
+const todaysWeather = {
+  date: new Date(),
+  weather: "sunny",
+}
+
+const logWeather = ({ date, weather }: { date: Date; weather: string }) => {
+  console.log(date)
+  console.log(weather)
+}
+
+logWeather(todaysWeather)
+
+// ------------ annotation around objects ---------------------
+
+const profile = {
+  name: "Alex",
+  age: 27,
+  coords: {
+    lat: 0,
+    lng: 15,
+  },
+  setAge(age: number): void {
+    this.age = age
+  },
+}
+
+const { age }: { age: number } = profile
+
+// destructure lat, lng without TS
+// const {coords: {lat, lng}} = profile
+
+// destructuring nested object
+const {
+  coords: { lat, lng },
+}: { coords: { lat: number; lng: number } } = profile
+
+console.log(lat, lng)
+
+profile.setAge(34)
+
+console.log(profile.age)
