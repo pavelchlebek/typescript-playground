@@ -184,3 +184,53 @@ console.log(lat, lng)
 profile.setAge(34)
 
 console.log(profile.age)
+
+// ----------------- arrow function in object using this -----------------------
+
+class Person {
+  name: string
+  constructor(name: string) {
+    this.name = name
+  }
+  printNameArrow() {
+    setTimeout(() => {
+      console.log("Arrow: " + this.name)
+    }, 100)
+  }
+  printNameFunction() {
+    setTimeout(function () {
+      console.log("Function: " + this.name)
+    }, 100)
+  }
+}
+
+let p = new Person("Pavel")
+
+// p.printNameArrow()
+// p.printNameFunction()
+
+const o = {
+  name: "Pavel",
+  printNameArrow: () => {
+    console.log("Arrow: " + this.name)
+  },
+  printNameFunction() {
+    console.log("Function:  " + this.name)
+  },
+}
+
+o.printNameArrow()
+o.printNameFunction()
+
+class Human {
+  name: string
+  constructor(name: string) {
+    this.name = name
+  }
+  printName() {
+    console.log(this.name)
+  }
+}
+
+const h = new Human("Pavlík")
+h.printName()

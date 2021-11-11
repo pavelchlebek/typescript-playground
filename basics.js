@@ -1,4 +1,5 @@
 "use strict";
+var _this = this;
 exports.__esModule = true;
 var person = {
     name: "Pavel",
@@ -124,3 +125,46 @@ var _a = profile.coords, lat = _a.lat, lng = _a.lng;
 console.log(lat, lng);
 profile.setAge(34);
 console.log(profile.age);
+// ----------------- arrow function in object using this -----------------------
+var Person = /** @class */ (function () {
+    function Person(name) {
+        this.name = name;
+    }
+    Person.prototype.printNameArrow = function () {
+        var _this = this;
+        setTimeout(function () {
+            console.log("Arrow: " + _this.name);
+        }, 100);
+    };
+    Person.prototype.printNameFunction = function () {
+        setTimeout(function () {
+            console.log("Function: " + this.name);
+        }, 100);
+    };
+    return Person;
+}());
+var p = new Person("Pavel");
+// p.printNameArrow()
+// p.printNameFunction()
+var o = {
+    name: "Pavel",
+    printNameArrow: function () {
+        console.log("Arrow: " + _this.name);
+    },
+    printNameFunction: function () {
+        console.log("Function:  " + this.name);
+    }
+};
+o.printNameArrow();
+o.printNameFunction();
+var Human = /** @class */ (function () {
+    function Human(name) {
+        this.name = name;
+    }
+    Human.prototype.printName = function () {
+        console.log(this.name);
+    };
+    return Human;
+}());
+var h = new Human("Pavlík");
+h.printName();
