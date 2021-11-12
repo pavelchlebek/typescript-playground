@@ -229,5 +229,66 @@ const makeTuple = <X, Y>(x: X, y: Y): [X, Y] => {
 }
 
 const tupleOne = makeTuple(18, "Olga")
+const tupleTwo = makeTuple("palko", 34)
+const tupleThree = makeTuple(10, 10)
 
-// --------------------------
+// ------------ with constraints ----------------------------
+
+interface IName {
+  firstName: string
+  lastName: string
+}
+
+const makeFullName = <T extends { firstName: string; lastName: string }>(obj: T) => {
+  return {
+    ...obj,
+    fullName: obj.firstName + " " + obj.lastName,
+  }
+}
+
+const user = {
+  id: "ft1012",
+  firstName: "Palko",
+  lastName: "Fekerznehy",
+}
+
+const i = makeFullName(user)
+
+// weird behaviour: we have extra property id on user but there is n signal when calling the function
+// however, when calling makeFullName with {...} error is caught
+
+const newUser = makeFullName({ firstName: "Palko", lastName: "Chlebík", age: 34 })
+console.log(newUser)
+
+// generics with constraints makes it possible to give argument to a function that has at least properties specified after "extends"
+
+const makeFullName2 = (obj: IName) => {
+  return {
+    ...obj,
+    fullName: obj.firstName + " " + obj.lastName,
+  }
+}
+
+const user1 = makeFullName2({ firstName: "pavel", lastName: "chlebek", age: 18 }) // see error message
+const user2 = makeFullName2({ firstName: "pavel", lastName: "chlebek", age: 18 } as IName) // see error message
+const user3 = makeFullName2(user) // is without error but returned type does not include property id
+
+// that is why we use <T extends {}> - generics with constraints
+
+interface IPerson {
+  name: string
+}
+
+const person: IPerson = { name: "palko", age: 30 } // error
+const person2: IPerson = { name: "Palko", age: 34 } as IPerson // works, but we lose "age" property
+
+// ---------------------------------------------------------------------------
+
+interface Tab<T> {
+  id: string
+  position: number
+  data: T
+}
+
+type NumberTab = Tab<number>
+type StringTab = Tab<string>

@@ -147,5 +147,32 @@ var object = lastGenerics([
     { name: "Pavel", age: 34 },
     { name: "Jura", age: 26, level: 3 },
 ]);
-exports.log(object.level);
+exports.log(object.level); // TS inferred the type from argument, level was suggested
 var mixed = lastGenerics([7, 8]); // number
+// ------ tuple --------------
+var makeTuple = function (x, y) {
+    return [x, y];
+};
+var tupleOne = makeTuple(18, "Olga");
+var tupleTwo = makeTuple("palko", 34);
+var tupleThree = makeTuple(10, 10);
+var makeFullName = function (obj) {
+    return __assign(__assign({}, obj), { fullName: obj.firstName + " " + obj.lastName });
+};
+var user = {
+    id: "ft1012",
+    firstName: "Palko",
+    lastName: "Fekerznehy"
+};
+var i = makeFullName(user);
+// weird behaviour: we have extra property id on user but there is n signal when calling the function
+// however, when calling makeFullName with {...} error is caught
+var newUser = makeFullName({ firstName: "Palko", lastName: "Chlebík", age: 34 });
+console.log(newUser);
+// generics with constraints makes it possible to give argument to a function that has at least properties specified after "extends"
+var makeFullName2 = function (obj) {
+    return __assign(__assign({}, obj), { fullName: obj.firstName + " " + obj.lastName });
+};
+var user2 = makeFullName2({ firstName: "pavel", lastName: "chlebek", age: 18 }); // see error message
+var user3 = makeFullName2(user); // is without error but returned type does not include property id
+// that is why we use <T extends {}> - generics with constraints
