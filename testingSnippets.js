@@ -9,3 +9,7 @@ const getData = async () => {
 }
 
 getData()
+
+export const palkoJeBorec = (value) => {
+  return value
+}
